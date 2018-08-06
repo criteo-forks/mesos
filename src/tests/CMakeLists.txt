@@ -108,6 +108,7 @@ set(MESOS_TESTS_SRC
   master_draining_tests.cpp
   master_load_tests.cpp
   master_maintenance_tests.cpp
+  master_resources_network_bandwidth_tests.cpp
   master_slave_reconciliation_tests.cpp
   master/update_framework_tests.cpp
   operation_reconciliation_tests.cpp
