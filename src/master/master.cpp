@@ -4708,10 +4708,12 @@ void Master::accept(
               HookManager::masterLaunchTaskResourceDecorator(task,
                 slave->totalResources);
             }
-          Try<Nothing> result = resources::enforceNetworkBandwidthAllocation(
-            slave->totalResources, task);
-          if(result.isError()) {
-            LOG(WARNING) << result.error();
+          if (flags.network_bandwidth_enforcement) {
+            Try<Nothing> result = resources::enforceNetworkBandwidthAllocation(
+              slave->totalResources, task);
+            if(result.isError()) {
+              LOG(WARNING) << result.error();
+            }
           }
         }
 
@@ -4735,10 +4737,12 @@ void Master::accept(
               HookManager::masterLaunchTaskResourceDecorator(task,
                 slave->totalResources);
           }
-          Try<Nothing> result = resources::enforceNetworkBandwidthAllocation(
-            slave->totalResources, task);
-          if(result.isError()) {
-            LOG(WARNING) << result.error();
+          if (flags.network_bandwidth_enforcement) {
+            Try<Nothing> result = resources::enforceNetworkBandwidthAllocation(
+              slave->totalResources, task);
+            if(result.isError()) {
+              LOG(WARNING) << result.error();
+            }
           }
         }
 
