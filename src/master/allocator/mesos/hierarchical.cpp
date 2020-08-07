@@ -523,7 +523,7 @@ void HierarchicalAllocatorProcess::recover(
 
   // TODO(alexr): Consider exposing these constants.
   const Duration ALLOCATION_HOLD_OFF_RECOVERY_TIMEOUT = Minutes(10);
-  const double AGENT_RECOVERY_FACTOR = 0.95;
+  const double AGENT_RECOVERY_FACTOR = 0.8;
 
   // Record the number of expected agents.
   expectedAgentCount =
@@ -846,8 +846,8 @@ void HierarchicalAllocatorProcess::addSlave(
   if (paused &&
       expectedAgentCount.isSome() &&
       (static_cast<int>(slaves.size()) >= expectedAgentCount.get())) {
-    LOG(INFO) << "Recovery complete: sufficient amount of agents added; "
-              << slaves.size() << " agents known to the allocator";
+    VLOG(1) << "Recovery complete: sufficient amount of agents added; "
+            << slaves.size() << " agents known to the allocator";
 
     expectedAgentCount = None();
     resume();
@@ -1658,7 +1658,7 @@ void HierarchicalAllocatorProcess::pause()
 void HierarchicalAllocatorProcess::resume()
 {
   if (paused) {
-    LOG(INFO) << "Allocation resumed";
+    VLOG(1) << "Allocation resumed";
 
     paused = false;
   }
