@@ -842,6 +842,11 @@ void HierarchicalAllocatorProcess::addSlave(
   // will not over-commit too many resources to quota that we will not be
   // able to revoke.
   if (paused &&
+      expectedAgentCount.isSome()) {
+    LOG(INFO) << "Recovery in progress:  " << slaves.size() << " agents recovered, for minimal agent count of "
+              << expectedAgentCount.get() << " before resuming operations.";
+  }
+  if (paused &&
       expectedAgentCount.isSome() &&
       (static_cast<int>(slaves.size()) >= expectedAgentCount.get())) {
     LOG(INFO) << "Recovery complete: sufficient amount of agents added; "
