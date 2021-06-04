@@ -2208,7 +2208,8 @@ void HierarchicalAllocatorProcess::__allocate()
   // We randomize the agents here to "spread out" the effect of the first
   // stage, which tends to allocate from the front of the agent list more
   // so than the back.
-  std::random_shuffle(slaveIds.begin(), slaveIds.end());
+  // std::random_shuffle(slaveIds.begin(), slaveIds.end());
+    // Keep the slaves sort instead of shuffling the list.
 
   foreach (const SlaveID& slaveId, slaveIds) {
     Slave& slave = *CHECK_NOTNONE(getSlave(slaveId));
