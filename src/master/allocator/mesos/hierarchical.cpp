@@ -27,7 +27,7 @@
 #include <mesos/resources.hpp>
 #include <mesos/roles.hpp>
 #include <mesos/type_utils.hpp>
-
+#include <mesos/allocator/tsl/ordered_map.h>
 #include <process/after.hpp>
 #include <process/delay.hpp>
 #include <process/dispatch.hpp>
@@ -452,7 +452,7 @@ void HierarchicalAllocatorProcess::initialize(
     const Options& _options,
     const lambda::function<
         void(const FrameworkID&,
-             const hashmap<string, hashmap<SlaveID, Resources>>&)>&
+             const hashmap<string, tsl::ordered_map<SlaveID, Resources>>&)>&
       _offerCallback,
     const lambda::function<
         void(const FrameworkID&,
@@ -1745,7 +1745,7 @@ void HierarchicalAllocatorProcess::__allocate()
   //       framework having the corresponding role.
   //   (2) For unreserved resources on the slave, allocate these
   //       to a framework of any role.
-  hashmap<FrameworkID, hashmap<string, hashmap<SlaveID, Resources>>> offerable;
+  hashmap<FrameworkID, hashmap<string, tsl::ordered_map<SlaveID, Resources>>> offerable;
 
   // NOTE: This function can operate on a small subset of
   // `allocationCandidates`, we have to make sure that we don't
