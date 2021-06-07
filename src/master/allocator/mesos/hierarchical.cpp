@@ -2205,11 +2205,9 @@ void HierarchicalAllocatorProcess::__allocate()
   ResourceQuantities heldBackForHeadroom;
   size_t heldBackAgentCount = 0;
 
-  // We randomize the agents here to "spread out" the effect of the first
-  // stage, which tends to allocate from the front of the agent list more
-  // so than the back.
-  // std::random_shuffle(slaveIds.begin(), slaveIds.end());
-    // Keep the slaves sort instead of shuffling the list.
+  // Call the slave sorter again instead of random shuffle 
+  slaveSorter->sort(slaveIds.begin(), slaveIds.end());
+
 
   foreach (const SlaveID& slaveId, slaveIds) {
     Slave& slave = *CHECK_NOTNONE(getSlave(slaveId));
