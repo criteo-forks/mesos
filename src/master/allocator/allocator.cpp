@@ -59,9 +59,6 @@ Try<Allocator*> Allocator::create(
   //
   // We also look for "HierarchicalDRF" since that was the
   // previous value for `DEFAULT_ALLOCATOR`.
-  LOG(INFO) << " Creation de l'allocateur";
-  LOG(INFO) << slaveSorter;
-  LOG(INFO) << " VOila le role "<<name;
   if (name == "HierarchicalDRF" ||
       name == mesos::internal::master::DEFAULT_ALLOCATOR) {
     if (roleSorter != frameworkSorter) {
