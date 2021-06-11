@@ -33,7 +33,7 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
-
+#include <stout/hashmap.hpp>
 #include "ordered_hash.h"
 
 namespace tsl {
@@ -191,7 +191,17 @@ class ordered_map {
       : ordered_map(init.begin(), init.end(), bucket_count, hash, KeyEqual(),
                     alloc) {}
 
+
   ordered_map& operator=(std::initializer_list<value_type> ilist) {
+    m_ht.clear();
+
+    m_ht.reserve(ilist.size());
+    m_ht.insert(ilist.begin(), ilist.end());
+
+    return *this;
+  }
+  
+  ordered_map& operator=(hashmap<key_type,value_type> ilist) {
     m_ht.clear();
 
     m_ht.reserve(ilist.size());
