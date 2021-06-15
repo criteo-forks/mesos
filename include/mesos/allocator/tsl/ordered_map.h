@@ -981,5 +981,24 @@ class ordered_map {
 };
 
 }  // end namespace tsl
+template <typename K, typename V>
+std::string stringify(const tsl::ordered_map<K, V>& map)
+{
+  std::ostringstream out;
+  out << "{ ";
+  typename tsl::ordered_map<K, V>::const_iterator iterator = map.begin();
+  while (iterator != map.end()) {
+    out << iterator->first;
+    out << ": ";
+    out << iterator->second;
+    if (++iterator != map.end()) {
+      out << ", ";
+    }
+  }
+  out << " }";
+  return out.str();
+}
+
 
 #endif
+

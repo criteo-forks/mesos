@@ -94,10 +94,10 @@ struct Allocation
   {
     // Ensure the resources have the allocation info set.
     foreachkey (const string& role, resources) {
-      tsl::ordered_map<SlaveID,Resources> temp = resources.at(role);
-        foreachkey(const SlaveID& slaveId,temp){
-          Resources& myresources = temp.at(slaveId);
-          myresources.allocate(role);
+      tsl::ordered_map<SlaveID,Resources>& roleResources = resources.at(role);
+        for ( auto it=roleResources.begin(); it!=roleResources.end(); it++){
+          Resources& r = it.value();
+          r.allocate(role);
         }
       }
   }
@@ -117,8 +117,8 @@ bool operator==(const Allocation& left, const Allocation& right)
 ostream& operator<<(ostream& stream, const Allocation& allocation)
 {
   return stream
-    << "FrameworkID: " << allocation.frameworkId;
- //   << " Resource Allocation: " << stringify(allocation.resources);
+    << "FrameworkID: " << allocation.frameworkId
+    << " Resource Allocation: " << stringify(allocation.resources);
 }
 
 
