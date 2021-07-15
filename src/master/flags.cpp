@@ -205,7 +205,7 @@ mesos::internal::master::Flags::Flags()
       "sort_roles_once",
       "If `true`, sort roles only one time per allocation cycle. If\n"
       "`false`, sort roles after each iteration in slaves list.",
-      true);
+      false);
   add(&Flags::allocation_interval,
       "allocation_interval",
       "Amount of time to wait between performing\n"
