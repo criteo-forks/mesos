@@ -16,6 +16,7 @@
 
 #include "master/allocator/mesos/hierarchical.hpp"
 
+#include <iostream>
 #include <algorithm>
 #include <set>
 #include <string>
@@ -470,7 +471,16 @@ void HierarchicalAllocatorProcess::initialize(
   completedFrameworkMetrics =
     BoundedHashMap<FrameworkID, process::Owned<FrameworkMetrics>>(
         options.maxCompletedFrameworks);
-
+  
+  if( options.sortRolesOnce ){
+    sortRolesAgain = [this](vector<string> sortedRoles) {
+      return sortedRoles;
+    };
+  }else {
+    sortRolesAgain = [this](vector<string> sortedRoles) {
+      return this->roleSorter->sort();
+    };
+  }
   roleSorter->initialize(options.fairnessExcludeResourceNames);
   slaveSorter->initialize(options.slaveSorterResourceWeights);
 
@@ -2212,7 +2222,7 @@ void HierarchicalAllocatorProcess::__allocate()
 
   foreach (const SlaveID& slaveId, slaveIds) {
     Slave& slave = *CHECK_NOTNONE(getSlave(slaveId));
-
+    sortedRoles = sortRolesAgain(sortedRoles);
     foreach (const string& role, sortedRoles) {
       // TODO(bmahler): Handle shared volumes, which are always available but
       // should be excluded here based on `offeredSharedResources`.
