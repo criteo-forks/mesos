@@ -16,7 +16,6 @@
 
 #include "master/allocator/mesos/hierarchical.hpp"
 
-#include <iostream>
 #include <algorithm>
 #include <set>
 #include <string>
